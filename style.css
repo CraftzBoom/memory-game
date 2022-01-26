@@ -1,0 +1,272 @@
+/* CUSTOM FONTS */
+@font-face {
+    font-family: 'Creepy';
+    src: url('./Assets/Fonts/Creepy.woff') format('woff'),
+         url('./Assets/Fonts/Creepy.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Lunacy';
+    src: url('./Assets/Fonts/Lunacy.woff') format('woff'),
+         url('./Assets/Fonts/Lunacy.woff2') format('woff2');
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+/* ?ADDING CUSTOM CURSOR */
+html {
+    cursor: url("Assets/Cursors/scythe-cursor.png"),
+            pointer !important;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    /*overflow: hidden;*/
+    background: radial-gradient(#9D5900, #3D2200);
+}
+
+.title-text {
+    color: #FF6D00;
+    font-family: Creepy, serif;
+    font-size: 6em;
+    text-align: center;
+    font-weight: normal;
+}
+
+/* CARD CONTAINER STYLING */
+.game-info-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.game-info {
+    color: #FFBB89;
+    font-family: Lunacy, serif;
+    font-size: 4em;
+}
+
+.game-container {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content: center;
+    grid-gap: 10px;
+    margin: 50px;
+    perspective: 800px;
+}
+
+/* !CARDS CUSTOMIZATIONS */
+.card {
+    position: relative;
+    height: 175px;
+    width: 125px;
+    transform-style: preserve-3d;
+    box-shadow: rgba(0,0,0,0.2) 0 5px 15px;
+}
+
+.card:hover {
+    cursor: url("Assets/Cursors/death-scythe-pointer.png"),
+            pointer !important;
+}
+
+.card-face {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    border: 1px solid;
+    transition: transform 800ms cubic-bezier(0.175,0.885,0.32,1.275);
+}
+
+/* ?FLIP CARDS */
+.card.visible .card-back {
+    transform: rotateY(-180deg);
+}
+
+.card.visible .card-front {
+    transform: rotateY(0);
+}
+
+/* ?CARD--MATCH--ANIMATION */
+.card.card-matched .card-value {
+    animation: jiggle 1s linear infinite 500ms;
+}
+
+.overlay-text {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    color: #FF6D00;
+    font-family: Creepy, serif;
+}
+
+.overlay-text-small {
+    font-size: .3em;
+}
+
+.overlay-text.visible {
+    display: flex;
+    flex-direction: column;
+    animation: text-grow 500ms forwards;
+}
+
+@keyframes text-grow {
+    from {
+        background-color: rgba(0,0,0,0);
+        font-size: 0;
+    }
+    to {
+        background-color: rgba(0,0,0,0.8);
+        font-size: 10em;
+    }
+}
+
+@keyframes jiggle {
+    0%,100% {
+        transform: rotate(0);
+    }
+    25% {
+        transform: rotate(-30deg);
+    }
+    75% {
+        transform: rotate(30deg);
+    }
+}
+
+.card-back {
+    background-color: #000;
+    border-color: #FF6D00;
+}
+
+.card-front {
+    background-color: #FFBB89;
+    border-color: #333;
+    transform: rotateY(180deg);
+}
+
+.card-value {
+    transform: scale(0.9);
+    transition: 100ms ease-in-out;
+}
+
+.card-front:hover .card-value {
+    transform: scale(1);
+}
+
+/* ?SPIDERWEB POSITIONS */
+.web-cob {
+    position: absolute;
+    height: 47px;
+    width: 47px;
+    transition: width 100ms ease-in-out, height 100ms ease-in-out;
+}
+
+.card-face:hover .web-cob {
+    width: 52px;
+    height: 52px;
+}
+
+.spiderweb-top-left {
+    transform: rotate(270deg);
+    top: 0;
+    left: 0;
+}
+
+.spiderweb-top-right {
+    top: 0;
+    right: 0;
+}
+
+.spiderweb-bottom-left {
+    transform: rotate(180deg);
+    bottom: 0;
+    left: 0;
+}
+
+.spiderweb-bottom-right {
+    transform: rotate(90deg);
+    bottom: 0;
+    right: 0;
+}
+
+/*!* ?SPIDER ANIMATION *! TODO: FIX THE ANIMATION */
+.spider {
+    align-self: flex-start;
+    transform: translateY(-10px);
+    transition: transform 100ms ease-in-out;
+    transform-origin: top;
+}
+
+.card-back:hover .spider {
+    transform: translateY(0);
+}
+
+.spider:hover {
+    animation: swinging 2500ms linear infinite 100ms;
+}
+
+@keyframes swinging {
+    0%,100% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: rotate(5deg);
+    }
+    75% {
+        transform: rotate(-5deg);
+    }
+}
+
+
+/* !MEDIA QUERY */
+
+@media (max-width: 600px) {
+    /*body {*/
+    /*    overflow: visible;*/
+    /*}*/
+    .game-container {
+        grid-template-columns: repeat(2, auto);
+    }
+    .game-info-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    @keyframes text-grow {
+        from {
+            background-color: rgba(0,0,0,0);
+            font-size: 0;
+        }
+        to {
+            background-color: rgba(0,0,0,0.8);
+            font-size: 4em;
+        }
+    }
+}
+
+@media (min-width: 600px) and (max-width: 800px){
+    @keyframes text-grow {
+        from {
+            background-color: rgba(0,0,0,0);
+            font-size: 0;
+        }
+        to {
+            background-color: rgba(0,0,0,0.8);
+            font-size: 6em;
+        }
+    }
+}
